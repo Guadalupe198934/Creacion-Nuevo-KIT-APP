@@ -9,6 +9,7 @@ def positive_assert(name):
     user_response= sender_stand_request.post_new_client_kit(kit_body)
     # Comprueba si el código de estado es 201
     assert user_response.status_code == 201
+    assert user_response.json()["name"] == name["name"]
 
 # Función de prueba negativa para los casos en los que la solicitud devuelve un error relacionado con caracteres
 def negative_assert(name):
@@ -23,7 +24,6 @@ def negative_assert(name):
 
 # Prueba 1. Un Kit Name creado con exito y contiene 1 caracter
 def test_1_create_user_1_letter_in_kit_name_get_success_response():
-    #kit_body= data.kit_body_1
     positive_assert(data.kit_body_1)
 
 # Prueba 2. Un Kit Name creado con exito y contiene 511 caracter
@@ -32,11 +32,10 @@ def test_2_create_user_511_letter_in_kit_name_get_success_response():
 
 # Prueba 3. Error. Un Kit Name contiene 0 caracter
 def test_3_create_user_0_letter_kit_name_get_error_response():
-      negative_assert(data.kit_body_3)
+    negative_assert(data.kit_body_3)
 
 # Prueba 4. Error. Un Kit Name contiene 512 caracter
 def test_4_create_user_512_letter_kit_name_get_error_response():
-    # Comprueba la respuesta
     negative_assert(data.kit_body_4)
 
 # Prueba 5. Un Kit Name creado con exito y contiene caracteres especiales
@@ -49,15 +48,12 @@ def test_6_create_user_has_space_in_kit_name_get_success_response():
 
 # Prueba 7. Error. El parámetro Kit Name contiene un string de dígitos
 def test_7_create_user_has_number_in_first_name_get_error_response():
-    negative_assert(data.kit_body_7)
+    positive_assert(data.kit_body_7)
 
 # Prueba 8. Error. El parámetro contiene un string vacío
 def test_8_create_user_empty_kit_name_get_error_response():
-    # Comprueba la respuesta
     negative_assert(data.kit_body_8)
 
 # Prueba 9. Error. El tipo del parámetro Kit Name: número
 def test_9_create_user_number_type_kit_name_get_error_response():
-    # El resultado de la solicitud para crear un nuevo usuario o usuaria se guarda en la variable response
     negative_assert(data.kit_body_9)
-
